@@ -331,3 +331,22 @@ END $$;
 --  pg_sleep Komutu
 SELECT pg_sleep(5); -- 5 saniye bekletir
 SELECT * FROM bolum;
+
+-- Procedure Kullanımı
+CREATE OR REPLACE PROCEDURE deneme()
+LANGUAGE plpgsql 
+AS $$
+BEGIN 
+    RAISE NOTICE 'PostgreSQL dersimiz devam ediyor';
+    RAISE NOTICE 'PostgreSQL 2. satır burası';
+END $$;
+
+CALL deneme();
+
+-- Parametreli Procedure
+	CREATE PROCEDURE fakulte_ekle(p1 INTEGER, p2 TEXT)
+	LANGUAGE SQL 
+	AS $$
+	INSERT INTO fakulte (id, ad) VALUES (p1, p2);
+	$$;
+    CALL fakulte_ekle(7, 'Besyo');
