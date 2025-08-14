@@ -290,3 +290,41 @@ BEGIN
         RAISE NOTICE '1 numaralı bölümde 3''ten az ders var';
     END IF;
 END $$;
+
+-- CASE Kullanımı
+SELECT dersad, bolumid,
+    CASE 
+        WHEN bolumid = 1 THEN 'Yazılım'
+        WHEN bolumid = 2 THEN 'Mekatronik' 
+        ELSE 'Makine'
+    END AS duration
+FROM dersler
+ORDER BY dersad;
+
+-- WHILE Döngüsü
+DO $$ 
+DECLARE 
+    sayac INT := 1,
+    toplam INT := 0;
+BEGIN
+    WHILE sayac <= 10 LOOP
+        RAISE NOTICE 'Sayaç: %', sayac;
+        toplam := sayac + toplam;
+        sayac := sayac + 1;
+    END LOOP;
+    RAISE NOTICE 'Sayıların toplamı: %', toplam;
+END $$;
+
+-- LOOP Kullanımı
+DO $$ 
+DECLARE 
+    sayac INT := 1,
+    toplam INT := 0;
+BEGIN 
+    LOOP 
+        EXIT WHEN sayac = 6;
+        toplam := toplam + sayac;
+        sayac := sayac + 1;
+    END LOOP;
+    RAISE NOTICE 'Ardışık toplam sonucu: %', toplam;
+END $$;
