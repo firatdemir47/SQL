@@ -213,3 +213,50 @@ DROP VIEW IF EXISTS view1;
 
 -- With Check Option
 -- insert into view2(id, dersad) values (9, 'oop');
+
+-- Değişken Tanımlama ve Kullanma
+DO $$
+DECLARE 
+    x INT := 20,
+    y INT := 15,
+    z INT;
+BEGIN 
+    RAISE NOTICE 'Sayı 1: %', x;
+    RAISE NOTICE 'Sayı 2: %', y;
+    RAISE NOTICE 'Sayı 3: %', z;
+END $$;
+
+-- Değişkenler ile Aritmetik İşlemler
+
+DO $$
+DECLARE 
+    x INT := 20,
+    y INT := 5,
+    toplam INT,
+    fark INT,
+    carpim INT,
+    bolum INT;
+BEGIN 
+    toplam := x + y; 
+    fark := x - y;
+    carpim := x * y;
+    bolum := x / y;
+    RAISE NOTICE 'Sayı 1: %', x;
+    RAISE NOTICE 'Sayı 2: %', y;
+    RAISE NOTICE 'Toplam: %', toplam;
+    RAISE NOTICE 'Fark: %', fark;
+    RAISE NOTICE 'Çarpım: %', carpim;
+    RAISE NOTICE 'Bölüm: %', bolum;
+END $$;
+
+-- Tablo Değerlerini Değişkenlere Atama
+DO $$
+DECLARE 
+    toplam INT,
+    toplam2 INT;
+BEGIN 
+    toplam := (SELECT COUNT(*) FROM dersler);
+    toplam2 := (SELECT COUNT(*) FROM dersler WHERE LENGTH(dersad) > 10);
+    RAISE NOTICE 'Derslerin kayıt sayısı: %', toplam;
+    RAISE NOTICE 'Ders adı 10 karakterden uzun ders sayısı: %', toplam2;
+END $$;
