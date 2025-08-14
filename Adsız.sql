@@ -260,3 +260,33 @@ BEGIN
     RAISE NOTICE 'Derslerin kayıt sayısı: %', toplam;
     RAISE NOTICE 'Ders adı 10 karakterden uzun ders sayısı: %', toplam2;
 END $$;
+
+-- Karar Yapıları (IF-ELSE)
+DO $$
+DECLARE 
+    sınav1 INT := 20,
+    sınav2 INT := 64,
+    sınav3 INT := 15,
+    ortalama INT;
+BEGIN
+    ortalama = (sınav1 + sınav2 + sınav3) / 3;
+    RAISE NOTICE 'Öğrenci sınav ortalaması: %', ortalama;
+    IF ortalama >= 50 THEN
+        RAISE NOTICE 'Öğrenci dersten geçti';
+    ELSE 
+        RAISE NOTICE 'Öğrenci dersten kaldı';
+    END IF;
+END $$;
+
+-- Karar Yapıları 2
+DO $$ 
+DECLARE 
+    Adet INT;
+BEGIN 
+    Adet = (SELECT COUNT(*) FROM dersler);
+    IF Adet > 3 THEN 
+        RAISE NOTICE '1 numaralı bölümde 3''ten fazla ders var';
+    ELSE 
+        RAISE NOTICE '1 numaralı bölümde 3''ten az ders var';
+    END IF;
+END $$;
