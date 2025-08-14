@@ -396,3 +396,39 @@ $$ LANGUAGE plpgsql;
 
 SELECT * FROM kitapgetir('%a%');
 
+-- Trigger Kullanımı
+CREATE OR REPLACE FUNCTION test()
+RETURNS TRIGGER 
+AS $$
+BEGIN
+    UPDATE toplamfakulte SET sayi = sayi + 1;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER testtring 
+AFTER INSERT ON fakulte 
+FOR EACH ROW 
+EXECUTE PROCEDURE test();
+
+INSERT INTO fakulte(id, ad) VALUES (10, 'myo');
+
+-- Trigger’da Değişken Kullanımı
+CREATE OR REPLACE FUNCTION test1()
+RETURNS TRIGGER 
+AS $$
+DECLARE 
+    uzunluk INTEGER;
+BEGIN 
+    uzunluk := (SELECT LENGTH(ad) FROM fakulte ORDER BY id DESC LIMIT 1);
+    UPDATE toplamfakulte2 SET sayi = sayi + uzunluk;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER test1trig
+AFTER INSERT ON fakulte 
+FOR EACH ROW 
+EXECUTE PROCEDURE test1();
+
+INSERT INTO fakulte (id, ad) VALUES (34, 'dadasda');
