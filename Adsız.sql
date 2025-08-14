@@ -328,3 +328,6 @@ BEGIN
     END LOOP;
     RAISE NOTICE 'Ardışık toplam sonucu: %', toplam;
 END $$;
+--  pg_sleep Komutu
+SELECT pg_sleep(5); -- 5 saniye bekletir
+SELECT * FROM bolum;
