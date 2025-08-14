@@ -350,3 +350,49 @@ CALL deneme();
 	INSERT INTO fakulte (id, ad) VALUES (p1, p2);
 	$$;
     CALL fakulte_ekle(7, 'Besyo');
+    
+-- Fonksiyonlar 1
+	CREATE FUNCTION toplam(s1 INT, s2 INT)
+	RETURNS INT 
+	LANGUAGE plpgsql
+	AS $$
+	DECLARE 
+		sonuc INTEGER;
+	BEGIN 
+		sonuc := s1 + s2;
+		RETURN sonuc;
+	END; 
+	$$;
+
+SELECT toplam(45, 30);
+-- Fonksiyonlar 2 (KDV Hesaplama)
+CREATE FUNCTION kdvli(fiyatlar FLOAT)
+RETURNS FLOAT 
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    fiyatlar := fiyatlar * 0.08 + fiyatlar;
+    RETURN fiyatlar;
+END;
+$$;
+
+SELECT ad, yazar, fiyatlar, kdvli(fiyatlar) FROM kitaplar;
+
+-- Tablo Sonuçlu Fonksiyonlar
+CREATE FUNCTION kitapgetir(prmt VARCHAR)
+RETURNS TABLE (
+    idsutun INT,
+    kitapadsutun VARCHAR,
+    kitapyazarsutun VARCHAR
+)
+AS $$
+BEGIN 
+    RETURN QUERY 
+    SELECT id, ad, yazar
+    FROM kitaplar 
+    WHERE ad LIKE prmt;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT * FROM kitapgetir('%a%');
+
